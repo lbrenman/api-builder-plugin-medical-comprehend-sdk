@@ -1,0 +1,180 @@
+flow-nodes:
+  comprehend-sdk:
+    name: ComprehendMedical-SDK
+    icon: amazon-comprehend.svg
+    description: AWS Comprehend Medical SDK Flow Node to Expose Comprehend Medical NLP methods
+    category: NLP
+    methods:
+      detectPHI: # This same key is used in `actions.js`
+        name: Detect PHI Entities
+        description: Detect protected health information entities.
+        parameters:
+          Text:
+            name: Text
+            description: A UTF-8 text string containing the clinical content being examined for PHI entities. Each string must contain fewer than 20,000 bytes of characters.
+            required: true
+            initialType: string
+            schema:
+              type: string
+              example: Patient is John Smith, a 48-year-old teacher and resident of Seattle, Washington.
+        # "Next" (next) output
+        returns:
+          name: Next
+          description: The PHI entities retreived successfully.
+          context: $.phiEntitiesResponse
+          schema:
+            type: object
+            properties:
+              Entities:
+                type: array
+                items:
+                  Id:
+                    type: number
+                    description: The numeric identifier for the entity. This is a monotonically increasing id unique within this response rather than a global unique identifier.
+                    example: 0
+                  BeginOffset:
+                    type: number
+                    description: The 0-based character offset in the input text that shows where the entity begins. The offset returns the UTF-8 code point in the string.
+                    example: 11
+                  EndOffset:
+                    type: number
+                    description: The 0-based character offset in the input text that shows where the entity ends. The offset returns the UTF-8 code point in the string.
+                    example: 22
+                  Score:
+                    type: number
+                    description: The level of confidence that Amazon Comprehend Medical has in the accuracy of the detection.
+                    example: 0.9774383902549744
+                  Text:
+                    type: string
+                    description: The segment of input text extracted as this entity.
+                    example: John Smith
+                  Category:
+                    type: string
+                    description: The category of the entity.
+                    example: PROTECTED_HEALTH_INFORMATION
+                  Type:
+                    type: string
+                    description: Describes the specific type of entity with category of entities.
+                    example: DOSAGE
+                  Traits:
+                    type: array
+                    description: Contextual information for the entity.
+              UnmappedAttributes:
+                type: array
+        # "Error" (error) output
+        throws:
+          name: Error
+          description: An unexpected error was encountered retrieving the PHI entities.
+          context: $.phiEntitiesError
+          schema:
+            type: object
+      detectEntitiesV2: # This same key is used in `actions.js`
+        name: Detect Entities V2
+        description: Detect entities.
+        parameters:
+          Text:
+            name: Text
+            description: A UTF-8 string containing the clinical content being examined for entities. Each string must contain fewer than 20,000 bytes of characters.
+            required: true
+            initialType: string
+            schema:
+              type: string
+              example: Sleeping trouble on present dosage of Clonidine. Severe rash on face and leg, slightly itchy.
+        # "Next" (next) output
+        returns:
+          name: Next
+          description: The entities retreived successfully.
+          context: $.entitiesResponse
+          schema:
+            type: object
+            properties:
+              Entities:
+                type: array
+                items:
+                  Attributes:
+                    type: array
+                    items:
+                      BeginOffset:
+                        type: number
+                        description: A character offset in the input text that shows where the entity begins (the first character is at position 0).
+                        example: 11
+                      Category:
+                        type: string
+                        description: The category of the entity.
+                        example: MEDICATION
+                      EndOffset:
+                        type: number
+                        description: A character offset in the input text that shows where the entity ends.
+                        example: 22
+                      Id:
+                        type: string
+                        description: The numeric identifier for the entity. This is a monotonically increasing id unique within this response rather than a global unique identifier.
+                        example: 1
+                      RelationshipScore:
+                        type: number
+                        description: The level of confidence that Amazon Comprehend Medical has that this attribute is correctly related to this entity.
+                        example: 0.9774383902549744
+                      RelationshipType:
+                        type: string
+                        description: The type of relationship between the entity and attribute.
+                        example: OVERLAP
+                      Score:
+                        type: number
+                        description: The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as an attribute.
+                        example: 0.9774383902549744
+                      Text:
+                        type: string
+                        description: The segment of input text extracted as this attribute.
+                      Traits:
+                        type: array
+                        description: Contextual information for this attribute.
+                      Type:
+                        type: string
+                        description: The type of attribute.
+                        example: DOSAGE
+                  BeginOffset:
+                    type: number
+                    description: A character offset in the input text that shows where the entity begins (the first character is at position 0).
+                    example: 11
+                  Category:
+                    type: string
+                    description: The category of the entity.
+                    example: MEDICATION
+                  EndOffset:
+                    type: number
+                    description: A character offset in the input text that shows where the entity ends.
+                    example: 22
+                  Id:
+                    type: string
+                    description: The numeric identifier for the entity. This is a monotonically increasing id unique within this response rather than a global unique identifier.
+                    example: 1
+                  Score:
+                    type: number
+                    description: The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as an attribute.
+                    example: 0.9774383902549744
+                  Text:
+                    type: string
+                    description: The segment of input text extracted as this attribute.
+                  Traits:
+                    type: array
+                    description: Contextual information for this attribute.
+                  Type:
+                    type: string
+                    description: The type of attribute.
+                    example: DOSAGE
+              ModelVersion:
+                type: string
+                description: The version of the model used to analyze the documents. The version number looks like X.X.X. You can use this information to track the model used for a particular batch of documents.
+              PaginationToken:
+                type: string
+                description: If the result to the DetectEntitiesV2 operation was truncated, include the PaginationToken to fetch the next page of entities.
+              UnmappedAttributes:
+                type: array
+                description: Attributes extracted from the input text that couldn't be related to an entity.
+        # "Error" (error) output
+        throws:
+          name: Error
+          description: An unexpected error was encountered retrieving the entities.
+          context: $.entitiesError
+          schema:
+            type: object
