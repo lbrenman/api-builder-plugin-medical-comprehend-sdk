@@ -20,11 +20,12 @@ describe('flow-node medical-comprehend-sdk', () => {
 			expect(flowNode).to.be.a('object');
 
 			// Ensure the flow-node matches the spec
-			expect(flowNode.name).to.equal('Hello World');
-			expect(flowNode.description).to.equal('Example flow-node to say hello.');
+			expect(flowNode.name).to.equal('ComprehendMedical-SDK');
+			expect(flowNode.description).to.equal('AWS Comprehend Medical SDK Flow Node to Expose Comprehend Medical NLP methods');
 			expect(flowNode.icon).to.be.a('string');
 			expect(flowNode.getMethods()).to.deep.equal([
-				'hello'
+				'detectPHI',
+				'detectEntitiesV2'
 			]);
 		});
 
@@ -38,23 +39,86 @@ describe('flow-node medical-comprehend-sdk', () => {
 		});
 	});
 
-	describe('#hello', () => {
+	/*
+	describe('#detectSentiment', () => {
 		it('should error when missing required parameter', async () => {
-			// Invoke #hello with a non-number and check error.
-			const { value, output } = await flowNode.hello({
-				name: null
+			// Invoke #detectSentiment without a Text input and check error.
+			const { value, output } = await flowNode.detectSentiment({
+				Text: null
 			});
 
 			expect(value).to.be.instanceOf(Error)
-				.and.to.have.property('message', 'Missing required parameter: name');
+				.and.to.have.property('message', 'Missing required parameter: Text');
 			expect(output).to.equal('error');
 		});
 
 		it('should succeed with valid argument', async () => {
-			const { value, output } = await flowNode.hello({ name: 'World' });
+			const { value, output } = await flowNode.detectSentiment({ Text: 'This is great' });
 
-			expect(value).to.equal('Hello World');
+			expect(value.Sentiment).to.equal('POSITIVE');
 			expect(output).to.equal('next');
 		});
 	});
+
+	describe('#detectDominantLanguage', () => {
+		it('should error when missing required parameter', async () => {
+			// Invoke #detectSentiment without a Text input and check error.
+			const { value, output } = await flowNode.detectDominantLanguage({
+				Text: null
+			});
+
+			expect(value).to.be.instanceOf(Error)
+				.and.to.have.property('message', 'Missing required parameter: Text');
+			expect(output).to.equal('error');
+		});
+
+		it('should succeed with valid argument', async () => {
+			const { value, output } = await flowNode.detectDominantLanguage({ Text: 'This is great' });
+
+			expect(value.Languages[0].LanguageCode).to.equal('en');
+			expect(output).to.equal('next');
+		});
+	});
+
+	describe('#detectPiiEntities', () => {
+		it('should error when missing required parameter', async () => {
+			// Invoke #detectSentiment without a Text input and check error.
+			const { value, output } = await flowNode.detectPiiEntities({
+				Text: null
+			});
+
+			expect(value).to.be.instanceOf(Error)
+				.and.to.have.property('message', 'Missing required parameter: Text');
+			expect(output).to.equal('error');
+		});
+
+		it('should succeed with valid argument', async () => {
+			const { value, output } = await flowNode.detectPiiEntities({ Text: 'Hello Paulo Santos. The latest statement for your credit card account 1111-0000-1111-0000 was mailed to 123 Any Street, Seattle, WA 98109.' });
+
+			expect(value.Entities[0].Type).to.equal('NAME');
+			expect(output).to.equal('next');
+		});
+	});
+
+	describe('#detectEntities', () => {
+		it('should error when missing required parameter', async () => {
+			// Invoke #detectSentiment without a Text input and check error.
+			const { value, output } = await flowNode.detectEntities({
+				Text: null
+			});
+
+			expect(value).to.be.instanceOf(Error)
+				.and.to.have.property('message', 'Missing required parameter: Text');
+			expect(output).to.equal('error');
+		});
+
+		it('should succeed with valid argument', async () => {
+			const { value, output } = await flowNode.detectEntities({ Text: 'John moved to 1313 Mockingbird Lane in 2012.' });
+
+			expect(value.Entities[0].Type).to.equal('PERSON');
+			expect(output).to.equal('next');
+		});
+	});
+	*/
+
 });
