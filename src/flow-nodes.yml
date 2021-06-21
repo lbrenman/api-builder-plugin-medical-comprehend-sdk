@@ -1,5 +1,5 @@
 flow-nodes:
-  comprehend-sdk:
+  medical-comprehend-sdk:
     name: ComprehendMedical-SDK
     icon: amazon-comprehend.svg
     description: AWS Comprehend Medical SDK Flow Node to Expose Comprehend Medical NLP methods

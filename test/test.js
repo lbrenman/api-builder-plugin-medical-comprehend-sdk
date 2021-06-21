@@ -24,8 +24,8 @@ describe('flow-node medical-comprehend-sdk', () => {
 			expect(flowNode.description).to.equal('AWS Comprehend Medical SDK Flow Node to Expose Comprehend Medical NLP methods');
 			expect(flowNode.icon).to.be.a('string');
 			expect(flowNode.getMethods()).to.deep.equal([
-				'detectPHI',
-				'detectEntitiesV2'
+				'detectEntitiesV2',
+				'detectPHI'
 			]);
 		});
 
@@ -39,11 +39,9 @@ describe('flow-node medical-comprehend-sdk', () => {
 		});
 	});
 
-	/*
-	describe('#detectSentiment', () => {
+	describe('#detectPHI', () => {
 		it('should error when missing required parameter', async () => {
-			// Invoke #detectSentiment without a Text input and check error.
-			const { value, output } = await flowNode.detectSentiment({
+			const { value, output } = await flowNode.detectPHI({
 				Text: null
 			});
 
@@ -53,57 +51,16 @@ describe('flow-node medical-comprehend-sdk', () => {
 		});
 
 		it('should succeed with valid argument', async () => {
-			const { value, output } = await flowNode.detectSentiment({ Text: 'This is great' });
-
-			expect(value.Sentiment).to.equal('POSITIVE');
-			expect(output).to.equal('next');
-		});
-	});
-
-	describe('#detectDominantLanguage', () => {
-		it('should error when missing required parameter', async () => {
-			// Invoke #detectSentiment without a Text input and check error.
-			const { value, output } = await flowNode.detectDominantLanguage({
-				Text: null
-			});
-
-			expect(value).to.be.instanceOf(Error)
-				.and.to.have.property('message', 'Missing required parameter: Text');
-			expect(output).to.equal('error');
-		});
-
-		it('should succeed with valid argument', async () => {
-			const { value, output } = await flowNode.detectDominantLanguage({ Text: 'This is great' });
-
-			expect(value.Languages[0].LanguageCode).to.equal('en');
-			expect(output).to.equal('next');
-		});
-	});
-
-	describe('#detectPiiEntities', () => {
-		it('should error when missing required parameter', async () => {
-			// Invoke #detectSentiment without a Text input and check error.
-			const { value, output } = await flowNode.detectPiiEntities({
-				Text: null
-			});
-
-			expect(value).to.be.instanceOf(Error)
-				.and.to.have.property('message', 'Missing required parameter: Text');
-			expect(output).to.equal('error');
-		});
-
-		it('should succeed with valid argument', async () => {
-			const { value, output } = await flowNode.detectPiiEntities({ Text: 'Hello Paulo Santos. The latest statement for your credit card account 1111-0000-1111-0000 was mailed to 123 Any Street, Seattle, WA 98109.' });
+			const { value, output } = await flowNode.detectPHI({ Text: 'Patient Carlos Salazar presented with rash on his upper extremities and dry cough. He lives at 100 Main Street, Anytown, USA where he works from his home as a carpenter.' });
 
 			expect(value.Entities[0].Type).to.equal('NAME');
 			expect(output).to.equal('next');
 		});
 	});
 
-	describe('#detectEntities', () => {
+	describe('#detectEntitiesV2', () => {
 		it('should error when missing required parameter', async () => {
-			// Invoke #detectSentiment without a Text input and check error.
-			const { value, output } = await flowNode.detectEntities({
+			const { value, output } = await flowNode.detectEntitiesV2({
 				Text: null
 			});
 
@@ -113,12 +70,11 @@ describe('flow-node medical-comprehend-sdk', () => {
 		});
 
 		it('should succeed with valid argument', async () => {
-			const { value, output } = await flowNode.detectEntities({ Text: 'John moved to 1313 Mockingbird Lane in 2012.' });
+			const { value, output } = await flowNode.detectEntitiesV2({ Text: 'Sleeping trouble on present dosage of Clonidine. Severe rash on face and leg, slightly itchy.' });
 
-			expect(value.Entities[0].Type).to.equal('PERSON');
+			expect(value.Entities[0].Category).to.equal('MEDICAL_CONDITION');
 			expect(output).to.equal('next');
 		});
 	});
-	*/
 
 });
