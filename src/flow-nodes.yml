@@ -28,37 +28,79 @@ flow-nodes:
               Entities:
                 type: array
                 items:
-                  Id:
-                    type: number
-                    description: The numeric identifier for the entity. This is a monotonically increasing id unique within this response rather than a global unique identifier.
-                    example: 0
-                  BeginOffset:
-                    type: number
-                    description: The 0-based character offset in the input text that shows where the entity begins. The offset returns the UTF-8 code point in the string.
-                    example: 11
-                  EndOffset:
-                    type: number
-                    description: The 0-based character offset in the input text that shows where the entity ends. The offset returns the UTF-8 code point in the string.
-                    example: 22
-                  Score:
-                    type: number
-                    description: The level of confidence that Amazon Comprehend Medical has in the accuracy of the detection.
-                    example: 0.9774383902549744
-                  Text:
-                    type: string
-                    description: The segment of input text extracted as this entity.
-                    example: John Smith
-                  Category:
-                    type: string
-                    description: The category of the entity.
-                    example: PROTECTED_HEALTH_INFORMATION
-                  Type:
-                    type: string
-                    description: Describes the specific type of entity with category of entities.
-                    example: DOSAGE
-                  Traits:
-                    type: array
-                    description: Contextual information for the entity.
+                  type: object
+                  properties:
+                    Id:
+                      type: number
+                      description: The numeric identifier for the entity. This is a monotonically increasing id unique within this response rather than a global unique identifier.
+                      example: 0
+                    BeginOffset:
+                      type: number
+                      description: The 0-based character offset in the input text that shows where the entity begins. The offset returns the UTF-8 code point in the string.
+                      example: 11
+                    EndOffset:
+                      type: number
+                      description: The 0-based character offset in the input text that shows where the entity ends. The offset returns the UTF-8 code point in the string.
+                      example: 22
+                    Score:
+                      type: number
+                      description: The level of confidence that Amazon Comprehend Medical has in the accuracy of the detection.
+                      example: 0.9774383902549744
+                    Text:
+                      type: string
+                      description: The segment of input text extracted as this entity.
+                      example: John Smith
+                    Category:
+                      type: string
+                      description: The category of the entity.
+                      enum:
+                      - MEDICATION
+                      - MEDICAL_CONDITION
+                      - PROTECTED_HEALTH_INFORMATION
+                      - TEST_TREATMENT_PROCEDURE
+                      - ANATOMY
+                      - TIME_EXPRESSION
+                    Type:
+                      type: string
+                      description: Describes the specific type of entity with category of entities.
+                      enum:
+                      - NAME
+                      - DOSAGE
+                      - ROUTE_OR_MODE
+                      - FORM
+                      - FREQUENCY
+                      - DURATION
+                      - GENERIC_NAME
+                      - BRAND_NAME
+                      - STRENGTH
+                      - RATE
+                      - ACUITY
+                      - TEST_NAME
+                      - TEST_VALUE
+                      - TEST_UNITS
+                      - PROCEDURE_NAME
+                      - TREATMENT_NAME
+                      - DATE
+                      - AGE
+                      - CONTACT_POINT
+                      - EMAIL
+                      - IDENTIFIER
+                      - URL
+                      - ADDRESS
+                      - PROFESSION
+                      - SYSTEM_ORGAN_SITE
+                      - DIRECTION
+                      - QUALITY
+                      - QUANTITY
+                      - TIME_EXPRESSION
+                      - TIME_TO_MEDICATION_NAME
+                      - TIME_TO_DX_NAME
+                      - TIME_TO_TEST_NAME
+                      - TIME_TO_PROCEDURE_NAME
+                      - TIME_TO_TREATMENT_NAME
+                    Traits:
+                      type: array
+                      description: Contextual information for the entity.
               UnmappedAttributes:
                 type: array
         # "Error" (error) output
@@ -91,77 +133,163 @@ flow-nodes:
               Entities:
                 type: array
                 items:
-                  Attributes:
-                    type: array
-                    items:
-                      BeginOffset:
-                        type: number
-                        description: A character offset in the input text that shows where the entity begins (the first character is at position 0).
-                        example: 11
-                      Category:
-                        type: string
-                        description: The category of the entity.
-                        example: MEDICATION
-                      EndOffset:
-                        type: number
-                        description: A character offset in the input text that shows where the entity ends.
-                        example: 22
-                      Id:
-                        type: string
-                        description: The numeric identifier for the entity. This is a monotonically increasing id unique within this response rather than a global unique identifier.
-                        example: 1
-                      RelationshipScore:
-                        type: number
-                        description: The level of confidence that Amazon Comprehend Medical has that this attribute is correctly related to this entity.
-                        example: 0.9774383902549744
-                      RelationshipType:
-                        type: string
-                        description: The type of relationship between the entity and attribute.
-                        example: OVERLAP
-                      Score:
-                        type: number
-                        description: The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as an attribute.
-                        example: 0.9774383902549744
-                      Text:
-                        type: string
-                        description: The segment of input text extracted as this attribute.
-                      Traits:
-                        type: array
-                        description: Contextual information for this attribute.
-                      Type:
-                        type: string
-                        description: The type of attribute.
-                        example: DOSAGE
-                  BeginOffset:
-                    type: number
-                    description: A character offset in the input text that shows where the entity begins (the first character is at position 0).
-                    example: 11
-                  Category:
-                    type: string
-                    description: The category of the entity.
-                    example: MEDICATION
-                  EndOffset:
-                    type: number
-                    description: A character offset in the input text that shows where the entity ends.
-                    example: 22
-                  Id:
-                    type: string
-                    description: The numeric identifier for the entity. This is a monotonically increasing id unique within this response rather than a global unique identifier.
-                    example: 1
-                  Score:
-                    type: number
-                    description: The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as an attribute.
-                    example: 0.9774383902549744
-                  Text:
-                    type: string
-                    description: The segment of input text extracted as this attribute.
-                  Traits:
-                    type: array
-                    description: Contextual information for this attribute.
-                  Type:
-                    type: string
-                    description: The type of attribute.
-                    example: DOSAGE
+                  type: object
+                  properties:
+                    Attributes:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          BeginOffset:
+                            type: number
+                            description: A character offset in the input text that shows where the entity begins (the first character is at position 0).
+                            example: 11
+                          Category:
+                            type: string
+                            description: The category of the entity.
+                            enum:
+                            - MEDICATION
+                            - MEDICAL_CONDITION
+                            - PROTECTED_HEALTH_INFORMATION
+                            - TEST_TREATMENT_PROCEDURE
+                            - ANATOMY
+                            - TIME_EXPRESSION
+                          EndOffset:
+                            type: number
+                            description: A character offset in the input text that shows where the entity ends.
+                            example: 22
+                          Id:
+                            type: number
+                            description: The numeric identifier for the entity. This is a monotonically increasing id unique within this response rather than a global unique identifier.
+                            example: 1
+                          RelationshipScore:
+                            type: number
+                            description: The level of confidence that Amazon Comprehend Medical has that this attribute is correctly related to this entity.
+                            example: 0.9774383902549744
+                          RelationshipType:
+                            type: string
+                            description: The type of relationship between the entity and attribute.
+                            example: OVERLAP
+                          Score:
+                            type: number
+                            description: The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as an attribute.
+                            example: 0.9774383902549744
+                          Text:
+                            type: string
+                            description: The segment of input text extracted as this attribute.
+                          Traits:
+                            type: array
+                            description: Contextual information for this attribute.
+                          Type:
+                            type: string
+                            description: The type of attribute.
+                            enum:
+                            - NAME
+                            - DOSAGE
+                            - ROUTE_OR_MODE
+                            - FORM
+                            - FREQUENCY
+                            - DURATION
+                            - GENERIC_NAME
+                            - BRAND_NAME
+                            - STRENGTH
+                            - RATE
+                            - ACUITY
+                            - TEST_NAME
+                            - TEST_VALUE
+                            - TEST_UNITS
+                            - PROCEDURE_NAME
+                            - TREATMENT_NAME
+                            - DATE
+                            - AGE
+                            - CONTACT_POINT
+                            - EMAIL
+                            - IDENTIFIER
+                            - URL
+                            - ADDRESS
+                            - PROFESSION
+                            - SYSTEM_ORGAN_SITE
+                            - DIRECTION
+                            - QUALITY
+                            - QUANTITY
+                            - TIME_EXPRESSION
+                            - TIME_TO_MEDICATION_NAME
+                            - TIME_TO_DX_NAME
+                            - TIME_TO_TEST_NAME
+                            - TIME_TO_PROCEDURE_NAME
+                            - TIME_TO_TREATMENT_NAME
+                            - DX_NAME
+                    BeginOffset:
+                      type: number
+                      description: A character offset in the input text that shows where the entity begins (the first character is at position 0).
+                      example: 11
+                    Category:
+                      type: string
+                      description: The category of the entity.
+                      enum:
+                      - MEDICATION
+                      - MEDICAL_CONDITION
+                      - PROTECTED_HEALTH_INFORMATION
+                      - TEST_TREATMENT_PROCEDURE
+                      - ANATOMY
+                      - TIME_EXPRESSION
+                    EndOffset:
+                      type: number
+                      description: A character offset in the input text that shows where the entity ends.
+                      example: 22
+                    Id:
+                      type: number
+                      description: The numeric identifier for the entity. This is a monotonically increasing id unique within this response rather than a global unique identifier.
+                      example: 1
+                    Score:
+                      type: number
+                      description: The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as an attribute.
+                      example: 0.9774383902549744
+                    Text:
+                      type: string
+                      description: The segment of input text extracted as this attribute.
+                    Traits:
+                      type: array
+                      description: Contextual information for this attribute.
+                    Type:
+                      type: string
+                      description: The type of attribute.
+                      enum:
+                      - NAME
+                      - DOSAGE
+                      - ROUTE_OR_MODE
+                      - FORM
+                      - FREQUENCY
+                      - DURATION
+                      - GENERIC_NAME
+                      - BRAND_NAME
+                      - STRENGTH
+                      - RATE
+                      - ACUITY
+                      - TEST_NAME
+                      - TEST_VALUE
+                      - TEST_UNITS
+                      - PROCEDURE_NAME
+                      - TREATMENT_NAME
+                      - DATE
+                      - AGE
+                      - CONTACT_POINT
+                      - EMAIL
+                      - IDENTIFIER
+                      - URL
+                      - ADDRESS
+                      - PROFESSION
+                      - SYSTEM_ORGAN_SITE
+                      - DIRECTION
+                      - QUALITY
+                      - QUANTITY
+                      - TIME_EXPRESSION
+                      - TIME_TO_MEDICATION_NAME
+                      - TIME_TO_DX_NAME
+                      - TIME_TO_TEST_NAME
+                      - TIME_TO_PROCEDURE_NAME
+                      - TIME_TO_TREATMENT_NAME
+                      - DX_NAME
               ModelVersion:
                 type: string
                 description: The version of the model used to analyze the documents. The version number looks like X.X.X. You can use this information to track the model used for a particular batch of documents.
