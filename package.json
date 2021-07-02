@@ -1,6 +1,6 @@
 {
 	"name": "api-builder-plugin-medical-comprehend-sdk",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "A plugin for Axway API Builder",
 	"author": "",
 	"license": "ISC",
